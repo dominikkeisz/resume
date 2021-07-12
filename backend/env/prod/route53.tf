@@ -1,3 +1,8 @@
+data "aws_route53_zone" "main" {
+  name         = var.zone_id
+  private_zone = true
+}
+
 resource "aws_route53_record" "root-a" {
   zone_id = var.domain_name
   name    = var.domain_name

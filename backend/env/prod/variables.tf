@@ -11,3 +11,8 @@ variable "bucket_name" {
 variable "common_tags" {
   description = "Common tags you want applied to all components."
 }
+
+variable "zone_id" {
+  type = "string"
+  description = "The Hosted Zone id of the desired Hosted Zone."
+}
