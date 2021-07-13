@@ -13,6 +13,6 @@ variable "common_tags" {
 }
 
 variable "zone_id" {
-  type = "string"
+  type = string
   description = "The Hosted Zone id of the desired Hosted Zone."
 }
