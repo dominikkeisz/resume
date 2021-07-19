@@ -42,7 +42,7 @@ resource "aws_s3_bucket" "subdomain-bucket" {
   bucket = "www.${var.domain_name}"
 
   website {
-    redirect_all_requests_to = "http://${var.domain_name}"
+    redirect_all_requests_to = "https://${var.domain_name}"
   }
 
   tags = {

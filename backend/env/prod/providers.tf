@@ -9,15 +9,10 @@ terraform {
   backend "s3" {
     bucket = "resume-tf-state-prod"
     key    = "terraform.tfstate"
-    region = "eu-central-1"
+    region = "us-east-1"
   }
 }
 
 provider "aws" {
-  region = "eu-central-1"
-}
-
-provider "aws" {
-  alias = "us-east"
   region = "us-east-1"
 }
