@@ -1,5 +1,5 @@
-resource "aws_iam_role" "codepipeline_role" {
-  name = "ServiceRoleForCodePipeline"
+resource "aws_iam_role" "code_deploy" {
+  name = "ServiceRoleForCodeDeploymentsToS3"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -9,7 +9,7 @@ resource "aws_iam_role" "codepipeline_role" {
         Effect = "Allow"
         Sid    = ""
         Principal = {
-          Service = "codepipeline.amazonaws.com"
+          Service = "s3.amazonaws.com"
         }
       },
     ]
@@ -21,9 +21,9 @@ resource "aws_iam_role" "codepipeline_role" {
 }
 
 
-resource "aws_iam_role_policy" "codepipeline_policy" {
-  name = "StaticSiteCodePipelinePolicy"
-  role = aws_iam_role.codepipeline_role.id
+resource "aws_iam_role_policy" "code_deploy_policy" {
+  name = "StaticSiteCodeDeployPolicy"
+  role = aws_iam_role.code_deploy.id
 
   policy = jsonencode({
     Version = "2012-10-17"
@@ -41,21 +41,6 @@ resource "aws_iam_role_policy" "codepipeline_policy" {
           "${aws_s3_bucket.domain-bucket.arn}",
           "${aws_s3_bucket.domain-bucket.arn}/*"
         ]
-      },
-      {
-        Effect = "Allow",
-        Action = [
-          "codestar-connections:UseConnection"
-        ],
-        Resource = "${aws_codestarconnections_connection.github.arn}"
-      },
-      {
-        Effect = "Allow",
-        Action = [
-          "codebuild:BatchGetBuilds",
-          "codebuild:StartBuild"
-        ],
-        Resource = "*"
       }
     ]
   })
