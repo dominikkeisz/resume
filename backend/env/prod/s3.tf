@@ -53,3 +53,9 @@ resource "aws_s3_bucket" "log_bucket" {
     project = "resume"
   }
 }
+
+# S3 bucket for website artifacts
+resource "aws_s3_bucket" "codepipeline_bucket" {
+  bucket = "resume-pipeline-bucket"
+  acl    = "private"
+}
