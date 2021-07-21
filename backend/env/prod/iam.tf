@@ -29,6 +29,19 @@ resource "aws_iam_role_policy" "code_deploy_policy" {
     Version = "2012-10-17"
     Statement = [
       {
+        Effect   = "Allow",
+        Action   = "s3:ListAllMyBuckets",
+        Resource = "arn:aws:s3:::*"
+      },
+      {
+        Effect = "Allow",
+        Action = [
+          "s3:ListBucket",
+          "s3:GetBucketLocation"
+        ],
+        Resource = "${aws_s3_bucket.domain-bucket.arn}"
+      },
+      {
         Effect = "Allow",
         Action = [
           "s3:GetObject",
