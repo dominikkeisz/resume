@@ -17,16 +17,18 @@ resource "aws_cloudfront_distribution" "root_distribution" {
   default_root_object = "index.html"
 
   custom_error_response {
-    error_code = 404
-    response_code = 404
+    error_code         = 404
+    response_code      = 404
     response_page_path = "/404.html"
   }
 
+  aliases = ["${var.domain_name}"]
+
   default_cache_behavior {
-    allowed_methods  = ["GET", "HEAD"]
+    allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
     cached_methods   = ["GET", "HEAD"]
     target_origin_id = local.s3_origin_id
-    compress = true
+    compress         = true
 
     forwarded_values {
       query_string = false
@@ -55,8 +57,8 @@ resource "aws_cloudfront_distribution" "root_distribution" {
   }
 
   viewer_certificate {
-    acm_certificate_arn = aws_acm_certificate.cert.arn
-    ssl_support_method = "sni-only"
+    acm_certificate_arn      = aws_acm_certificate.cert.arn
+    ssl_support_method       = "sni-only"
     minimum_protocol_version = "TLSv1"
   }
 }
