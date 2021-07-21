@@ -3,24 +3,18 @@ resource "aws_s3_bucket" "domain-bucket" {
   bucket = var.domain_name
   acl    = "public-read"
 
-  policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Sid": "PublicReadGetObject",
-      "Effect": "Allow",
-      "Principal": "*",
-      "Action": [
-          "s3:GetObject"
-      ],
-      "Resource": [
-          "arn:aws:s3:::${var.domain_name}/*"
-      ]
-    }
-  ]
-}
-EOF
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Sid       = "PublicReadGetObject",
+        Action    = "s3:GetObject",
+        Effect    = "Allow",
+        Principal = "*",
+        Resource  = "arn:aws:s3:::${var.domain_name}/*"
+      },
+    ]
+  })
 
   website {
     index_document = "index.html"
@@ -58,4 +52,10 @@ resource "aws_s3_bucket" "log_bucket" {
   tags = {
     project = "resume"
   }
+}
+
+# S3 bucket for website artifacts
+resource "aws_s3_bucket" "codepipeline_bucket" {
+  bucket = "resume-pipeline-bucket"
+  acl    = "private"
 }
