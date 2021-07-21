@@ -1,29 +1,10 @@
-resource "aws_iam_role" "code_deploy" {
-  name = "ServiceRoleForCodeDeploymentsToS3"
-
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Action = "sts:AssumeRole"
-        Effect = "Allow"
-        Sid    = ""
-        Principal = {
-          Service = "s3.amazonaws.com"
-        }
-      },
-    ]
-  })
-
-  tags = {
-    project = "resume"
-  }
+resource "aws_iam_user" "resume_deployer" {
+  name = "ResumeDeployer"
 }
 
-
-resource "aws_iam_role_policy" "code_deploy_policy" {
+resource "aws_iam_user_policy" "code_deploy_policy" {
   name = "StaticSiteCodeDeployPolicy"
-  role = aws_iam_role.code_deploy.id
+  user = aws_iam_user.resume_deployer.name
 
   policy = jsonencode({
     Version = "2012-10-17"
@@ -57,4 +38,8 @@ resource "aws_iam_role_policy" "code_deploy_policy" {
       }
     ]
   })
+}
+
+resource "aws_iam_access_key" "resume_deployer" {
+  user = aws_iam_user.resume_deployer.name
 }
