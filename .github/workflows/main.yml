@@ -23,10 +23,7 @@ jobs:
         run: aws s3 sync ./frontend/ s3://dominikkeisz.com --delete --exclude ".*" --size-only
 
       - name: Get CloudFront distribution ID
-        run: echo "dist_id=aws cloudfront list-distributions --query "DistributionList.Items[*].{id:Id,alias:Aliases.Items[*]}[?alias==['dominikkeisz.com']].id" --output text" >> $GITHUB_ENV
-
-      - name: Print dist ID
-        run: echo ${{ env.dist_id }}
+        run: echo "DIST_ID=$(aws cloudfront list-distributions --query "DistributionList.Items[*].{id:Id,alias:Aliases.Items[*]}[?alias==['dominikkeisz.com']].id" --output text)" >> $GITHUB_ENV
 
       - name: Invalidate CloudFront cache
-        run: aws cloudfront create-invalidation --distribution-id ${{ env.dist_id }} --paths "/*"
+        run: aws cloudfront create-invalidation --distribution-id $DIST_ID --paths "/*"
