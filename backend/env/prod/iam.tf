@@ -35,6 +35,14 @@ resource "aws_iam_user_policy" "code_deploy_policy" {
           "${aws_s3_bucket.domain-bucket.arn}",
           "${aws_s3_bucket.domain-bucket.arn}/*"
         ]
+      },
+      {
+        Effect = "Allow",
+        Action = [
+          "cloudfront:ListDistributions",
+          "cloudfront:CreateInvalidation"
+        ],
+        Resource = "*"
       }
     ]
   })
