@@ -12,7 +12,7 @@ async function getVisitorNumber() {
     };
 
     let response = await axios.get(url, { params });
-    return response.data;
+    return response;
 }
 
 const incrementNumberByOne = (count) => {
@@ -27,7 +27,11 @@ const writeVisitorNumber = (number) => {
     visitorNumberElement.innerHTML = number;
 }
 
-const visitorNumber = getVisitorNumber();
-const newVisitorNumber = incrementNumberByOne(visitorNumber);
-setVisitorNumber(newVisitorNumber);
-writeVisitorNumber(newVisitorNumber);
+window.onload = function () {
+    const visitorNumberPromise = getVisitorNumber();
+    visitorNumberPromise.then((response) => {
+        const newVisitorNumber = incrementNumberByOne(response.data);
+        setVisitorNumber(newVisitorNumber);
+        writeVisitorNumber(newVisitorNumber);
+    });
+}
