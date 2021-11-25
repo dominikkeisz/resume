@@ -82,7 +82,11 @@ footer#connect {
 }
 
 #footer-links {
-    margin: auto;
+    margin: 0 auto 1em;
+}
+
+#footer-links li .fa-2x {
+    line-height: 2.5em;
 }
 
 * {
@@ -231,4 +235,9 @@ footer#connect {
 .arrow.-hidden>.dot:nth-of-type(10) {
     -webkit-transform: translateX(-25px) translateY(-75px);
     transform: translateX(-25px) translateY(-75px);
+}
+
+#footer-links li {
+    margin-left: 8px;
+    margin-right: 8px;
 }
